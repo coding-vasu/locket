@@ -3,6 +3,8 @@ import { persist } from 'zustand/middleware';
 import type { Credential, CredentialFormData, FilterType } from '../types/credential.types';
 import { createDateString } from '../utils/dateFormatter';
 import { seedData } from '../utils/seedData';
+import { createJSONStorage } from 'zustand/middleware';
+import { encryptedStorage } from '../utils/storage';
 
 interface CredentialStore {
   // State
@@ -106,6 +108,7 @@ export const useCredentialStore = create<CredentialStore>()(
     }),
     {
       name: 'locket_items',
+      storage: createJSONStorage(() => encryptedStorage),
       partialize: (state) => ({ credentials: state.credentials }),
     }
   )

@@ -9,13 +9,15 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "tauri": "tauri",
-    "tauri:dev": "tauri dev",
+    "tauri:dev": "export PATH=\"$HOME/.cargo/bin:$PATH\" && npx kill-port 5173 || true && tauri dev",
     "tauri:build": "tauri build"
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@hookform/resolvers": "^5.2.2",
     "@phosphor-icons/react": "^2.1.10",
+    "@tauri-apps/plugin-fs": "^2.4.5",
+    "@tauri-apps/plugin-os": "^2.3.2",
     "autoprefixer": "^10.4.23",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
