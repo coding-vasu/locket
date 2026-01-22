@@ -47,8 +47,8 @@ export function SettingsModal() {
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-border/50">
                   <Dialog.Title className="text-xl font-bold text-white flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center">
-                      <ShieldCheck size={18} weight="bold" className="text-white" />
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                      <img src="/icon.png" alt="Locket" className="w-full h-full object-cover" />
                     </div>
                     Settings
                   </Dialog.Title>
@@ -114,22 +114,29 @@ export function SettingsModal() {
                       <div>
                         <h3 className="text-lg font-semibold text-white mb-4">Security Settings</h3>
                         <div className="space-y-3">
-                          <div className="p-4 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                          <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
                             <div className="flex items-start gap-3">
-                              <Lock size={20} className="text-yellow-400 mt-0.5" weight="bold" />
+                              <ShieldCheck size={20} className="text-green-400 mt-0.5" weight="bold" />
                               <div>
-                                <p className="text-sm font-medium text-yellow-300 mb-1">
-                                  Security Notice
+                                <p className="text-sm font-medium text-green-300 mb-1">
+                                  Encryption Active
                                 </p>
-                                <p className="text-xs text-yellow-200/80">
-                                  This application stores credentials in unencrypted LocalStorage. 
-                                  For production use, implement encryption at rest and a master password.
+                                <p className="text-xs text-green-200/80">
+                                  Your data is secured using AES-GCM encryption and stored locally on your device.
                                 </p>
                               </div>
                             </div>
                           </div>
-                          <div className="text-xs text-zinc-500 italic">
-                            Coming soon: Master password, encryption, session timeout, 2FA
+                          
+                          <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30 space-y-3">
+                            <div>
+                                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Method</p>
+                                <p className="text-sm text-white font-mono">AES-GCM (256-bit)</p>
+                            </div>
+                            <div>
+                                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Storage Location</p>
+                                <p className="text-sm text-white font-mono">~/Library/Application Support/com.locket.app/store/locket_data.enc</p>
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -183,9 +190,9 @@ export function SettingsModal() {
                       <div>
                         <h3 className="text-lg font-semibold text-white mb-4">About Locket</h3>
                         <div className="space-y-4">
-                          <div className="flex items-center gap-4">
-                            <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-purple-600 flex items-center justify-center shadow-lg shadow-primary/20">
-                              <ShieldCheck size={32} weight="bold" className="text-white" />
+                          <div className="flex items-center gap-6">
+                            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden shrink-0">
+                              <img src="/icon.png" alt="Locket Logo" className="w-full h-full object-cover" />
                             </div>
                             <div>
                               <h4 className="text-lg font-bold text-white">Locket</h4>

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Globe, MagicWand, Eye, EyeSlash } from '@phosphor-icons/react';
 import { Modal } from '../ui/Modal';
 import { Button } from '../ui/Button';
@@ -19,12 +19,15 @@ export function CredentialModal() {
   const updateCredential = useCredentialStore((state) => state.updateCredential);
   const addToast = useUIStore((state) => state.addToast);
   
-  const [formData, setFormData] = useState<CredentialFormData>(() => {
+  const [formData, setFormData] = useState<CredentialFormData>(getInitialFormData);
+  
+  useEffect(() => {
     if (modalMode === 'edit' && editingCredential) {
-      return editingCredential;
+      setFormData(editingCredential);
+    } else if (modalMode === 'add') {
+      setFormData(getInitialFormData());
     }
-    return getInitialFormData();
-  });
+  }, [modalMode, editingCredential]);
   const [showPassword, setShowPassword] = useState(false);
   
   const handleSubmit = (e: React.FormEvent) => {
