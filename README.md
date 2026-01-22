@@ -48,10 +48,32 @@ A modern, secure, and beautiful local-first password manager application built w
     npm run dev
     ```
 
-4.  Building for production:
+4.  Building for production (Web):
     ```bash
     npm run build
     ```
+
+### Desktop App (Tauri)
+
+**Download the latest version:** [GitHub Releases](https://github.com/coding-vasu/locket/releases)
+
+#### Running in Development Mode
+
+Start the React dev server and Tauri window:
+
+```bash
+npm run tauri:dev
+```
+
+#### Building for Desktop
+
+Build the native application (creates a `.dmg` or `.app` on macOS):
+
+```bash
+npm run tauri:build
+```
+
+The output will be in `src-tauri/target/release/bundle`.
 
 ## Project Structure
 
@@ -61,7 +83,8 @@ src/
 ├── hooks/        # Custom React hooks
 ├── stores/       # Global state management
 ├── types/        # TypeScript type definitions
-└── App.tsx       # Main application entry
+├── App.tsx       # Main application entry
+src-tauri/        # Tauri Rust configuration and code
 ```
 
 ## License
