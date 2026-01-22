@@ -13,7 +13,7 @@ interface EncryptedFileContent {
 
 export const encryptedStorage: StateStorage = {
 
-  getItem: async (name: string): Promise<string | null> => {
+  getItem: async (_name: string): Promise<string | null> => {
     try {
       // Check if file exists in AppData directory
       const fileExists = await exists('store/' + FILE_NAME, { baseDir: BaseDirectory.AppData });
@@ -41,7 +41,7 @@ export const encryptedStorage: StateStorage = {
     }
   },
 
-  setItem: async (name: string, value: string): Promise<void> => {
+  setItem: async (_name: string, value: string): Promise<void> => {
     try {
       const key = await getMasterKey();
       const encrypted = await encryptData(value, key);
@@ -65,7 +65,7 @@ export const encryptedStorage: StateStorage = {
     }
   },
 
-  removeItem: async (name: string): Promise<void> => {
+  removeItem: async (_name: string): Promise<void> => {
     // We strictly probably shouldn't delete the whole file for one key if we shared it,
     // but here the store is monolithic.
     console.warn('removeItem called but not fully implemented for single key deletion in file mode');
