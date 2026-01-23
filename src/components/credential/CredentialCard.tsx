@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { Trash, PencilSimple, ClipboardText } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import type { Credential, CredentialFormData } from '../../types/credential.types';
@@ -16,7 +17,7 @@ interface CredentialCardProps {
   credential: Credential;
 }
 
-export function CredentialCard({ credential }: CredentialCardProps) {
+export const CredentialCard = memo(function CredentialCard({ credential }: CredentialCardProps) {
   const deleteCredential = useCredentialStore((state) => state.deleteCredential);
   const openEditModal = useUIStore((state) => state.openEditModal);
   const addToast = useUIStore((state) => state.addToast);
@@ -104,4 +105,4 @@ export function CredentialCard({ credential }: CredentialCardProps) {
       </div>
     </div>
   );
-}
+});

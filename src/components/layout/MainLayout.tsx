@@ -15,7 +15,9 @@ export function MainLayout({ children }: MainLayoutProps) {
       <AuroraBackground />
       
       {/* Noise Overlay */}
+      {/* Noise Overlay - Removed for performance optimization
       <div className="bg-noise"></div>
+      */}
       
       <div className="flex h-screen w-full">
         <main className="flex-1 flex flex-col relative z-10">

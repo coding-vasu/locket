@@ -10,7 +10,7 @@ export function AuroraBackground() {
           background: 'radial-gradient(circle, rgba(99, 102, 241, 0.4), transparent)',
           top: '10%',
           left: '20%',
-          animationDelay: '0s',
+          animation: 'none',
         }}
       />
       <div
@@ -21,7 +21,7 @@ export function AuroraBackground() {
           background: 'radial-gradient(circle, rgba(168, 85, 247, 0.35), transparent)',
           top: '50%',
           right: '15%',
-          animationDelay: '3s',
+          animation: 'none',
         }}
       />
       <div
@@ -32,7 +32,7 @@ export function AuroraBackground() {
           background: 'radial-gradient(circle, rgba(236, 72, 153, 0.3), transparent)',
           bottom: '15%',
           left: '30%',
-          animationDelay: '6s',
+          animation: 'none',
         }}
       />
       <div
@@ -43,7 +43,7 @@ export function AuroraBackground() {
           background: 'radial-gradient(circle, rgba(59, 130, 246, 0.25), transparent)',
           top: '60%',
           left: '60%',
-          animationDelay: '9s',
+          animation: 'none',
         }}
       />
     </div>

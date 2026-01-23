@@ -53,10 +53,9 @@ function DockIcon({
         style={{ width: size, height: size, borderRadius }}
         className={clsx(
           'relative flex items-center justify-center',
-          'transition-all duration-200 active:scale-95',
           isActive
-            ? 'bg-primary/10 text-primary shadow-sm backdrop-blur-xl border border-primary/20'
-            : 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main hover:border-black/10 dark:hover:border-white/10 border border-black/5 dark:border-white/5 backdrop-blur-sm'
+            ? 'bg-primary/10 text-primary shadow-sm border border-primary/20'
+            : 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main hover:border-black/10 dark:hover:border-white/10 border border-black/5 dark:border-white/5'
         )}
       >
         <Icon size={iconSize} weight={isActive ? 'fill' : 'regular'} className="relative z-10" />
@@ -76,7 +75,7 @@ function DockIcon({
       
       {/* Tooltip */}
       {isHovered && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-3 py-2 bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl whitespace-nowrap z-50 animate-fade-in">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-3 py-2 bg-zinc-900/95 border border-white/10 rounded-lg shadow-xl whitespace-nowrap z-50 animate-fade-in">
           <div className="flex items-center gap-2">
             <div className="text-xs font-medium text-white">{label}</div>
             {showShortcut && shortcutKey && (
@@ -137,9 +136,9 @@ function ActionButton({
   const iconSize = Math.round(finalSize * 0.45);
   
   const variantStyles = {
-    primary: 'bg-blue-500/90 text-white shadow-lg backdrop-blur-xl border border-blue-400/30 hover:bg-blue-600/90',
-    secondary: 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main border border-black/5 dark:border-white/5 hover:border-black/10 dark:hover:border-white/10 backdrop-blur-sm',
-    success: 'bg-emerald-500/90 text-white shadow-lg backdrop-blur-xl border border-emerald-400/30 hover:bg-emerald-600/90',
+    primary: 'bg-blue-500/90 text-white shadow-lg border border-blue-400/30 hover:bg-blue-600/90',
+    secondary: 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main border border-black/5 dark:border-white/5 hover:border-black/10 dark:hover:border-white/10',
+    success: 'bg-emerald-500/90 text-white shadow-lg border border-emerald-400/30 hover:bg-emerald-600/90',
   };
   
   return (
@@ -160,7 +159,7 @@ function ActionButton({
       
       {/* Tooltip */}
       {isHovered && (
-        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-3 py-2 bg-zinc-900/90 backdrop-blur-xl border border-white/10 rounded-lg shadow-xl whitespace-nowrap z-50 animate-fade-in">
+        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-4 px-3 py-2 bg-zinc-900/95 border border-white/10 rounded-lg shadow-xl whitespace-nowrap z-50 animate-fade-in">
           <div className="flex items-center gap-2">
             <div className="text-xs font-medium text-white">{label}</div>
             {shortcutKey && (
@@ -272,7 +271,7 @@ export function Dock() {
           className="mb-3 origin-bottom transition-all duration-300 animate-slide-up-scale"
           style={{ width: dockWidth || 'auto' }}
         >
-          <div className="w-full dock-glass backdrop-blur-xl rounded-3xl transition-all shadow-xl group focus-within:shadow-[0_0_0_2px_rgba(99,102,241,0.6)]">
+          <div className="w-full bg-surface/95 border border-white/10 rounded-3xl transition-all shadow-xl group focus-within:shadow-[0_0_0_2px_rgba(99,102,241,0.6)]">
             <input
               type="text"
               value={searchQuery}
@@ -290,7 +289,7 @@ export function Dock() {
         </div>
       )}
       
-      <div ref={dockRef} className="dock-glass backdrop-blur-2xl rounded-3xl shadow-2xl px-4 py-4">
+      <div ref={dockRef} className="dock-glass rounded-3xl shadow-2xl px-4 py-4">
         <div className="flex items-center gap-3">
           {/* Navigation Items */}
           {NAV_ITEMS.map((item, idx) => {

@@ -24,3 +24,9 @@ log = "0.4"
 tauri = { version = "2.9.5", features = [] }
 tauri-plugin-log = "2"
 tauri-plugin-fs = "2"
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+strip = true

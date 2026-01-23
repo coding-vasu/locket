@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { Ghost, Plus } from '@phosphor-icons/react';
 import { useCredentialStore } from '../../store/credentialStore';
 import { useUIStore } from '../../store/uiStore';
@@ -11,34 +12,36 @@ export function CredentialList() {
   const searchQuery = useCredentialStore((state) => state.searchQuery);
   const openAddModal = useUIStore((state) => state.openAddModal);
   
-  // Calculate filtered credentials
-  let filteredCredentials = credentials;
-  
-  // Filter by type
-  if (currentFilter !== 'all') {
-    filteredCredentials = filteredCredentials.filter((cred) => cred.type === currentFilter);
-  }
-  
-  // Filter by search
-  if (searchQuery) {
-    const q = searchQuery.toLowerCase();
-    filteredCredentials = filteredCredentials.filter((cred) => {
-      const titleMatch = cred.title.toLowerCase().includes(q);
-      const subtitleMatch = cred.subtitle.toLowerCase().includes(q);
-      
-      let extraMatch = false;
-      if (cred.type === 'login') {
-        extraMatch = cred.username.toLowerCase().includes(q);
-      } else if (cred.type === 'database') {
-        extraMatch = cred.dbHost.toLowerCase().includes(q);
-      }
-      
-      return titleMatch || subtitleMatch || extraMatch;
-    });
-  }
-  
-  // Reverse to show newest first
-  filteredCredentials = [...filteredCredentials].reverse();
+  // Calculate filtered credentials with memoization
+  const filteredCredentials = useMemo(() => {
+    let result = credentials;
+    
+    // Filter by type
+    if (currentFilter !== 'all') {
+      result = result.filter((cred) => cred.type === currentFilter);
+    }
+    
+    // Filter by search
+    if (searchQuery) {
+      const q = searchQuery.toLowerCase();
+      result = result.filter((cred) => {
+        const titleMatch = cred.title.toLowerCase().includes(q);
+        const subtitleMatch = cred.subtitle.toLowerCase().includes(q);
+        
+        let extraMatch = false;
+        if (cred.type === 'login') {
+          extraMatch = cred.username.toLowerCase().includes(q);
+        } else if (cred.type === 'database') {
+          extraMatch = cred.dbHost.toLowerCase().includes(q);
+        }
+        
+        return titleMatch || subtitleMatch || extraMatch;
+      });
+    }
+    
+    // Reverse to show newest first
+    return [...result].reverse();
+  }, [credentials, currentFilter, searchQuery]);
   
   if (filteredCredentials.length === 0) {
     const isSearching = searchQuery.length > 0;
