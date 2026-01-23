@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Gear, Plus, SquaresFour, Globe, Code, Database, Notepad, MagnifyingGlass } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import { NAV_ITEMS } from '../../constants';
@@ -55,8 +55,8 @@ function DockIcon({
           'relative flex items-center justify-center',
           'transition-all duration-200 active:scale-95',
           isActive
-            ? 'bg-white/10 text-white shadow-lg backdrop-blur-xl border border-white/20'
-            : 'bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-zinc-100 hover:border-white/20 border border-transparent backdrop-blur-xl'
+            ? 'bg-primary/10 text-primary shadow-sm backdrop-blur-xl border border-primary/20'
+            : 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main hover:border-black/10 dark:hover:border-white/10 border border-black/5 dark:border-white/5 backdrop-blur-sm'
         )}
       >
         <Icon size={iconSize} weight={isActive ? 'fill' : 'regular'} className="relative z-10" />
@@ -69,9 +69,9 @@ function DockIcon({
         )}
       </button>
       
-      {/* Active Indicator Dot */}
+      {/* Active Indicator - Glowing Pill */}
       {isActive && (
-        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-blue-400 rounded-full shadow-lg shadow-blue-400/50 animate-pulse-subtle" />
+        <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-4 h-[3px] bg-gradient-to-r from-transparent via-primary/60 to-transparent opacity-70 rounded-full blur-[1px] shadow-[0_-1px_4px_rgba(99,102,241,0.3)]" />
       )}
       
       {/* Tooltip */}
@@ -138,7 +138,7 @@ function ActionButton({
   
   const variantStyles = {
     primary: 'bg-blue-500/90 text-white shadow-lg backdrop-blur-xl border border-blue-400/30 hover:bg-blue-600/90',
-    secondary: 'bg-white/5 text-zinc-400 hover:bg-white/10 hover:text-zinc-100 border border-transparent hover:border-white/20 backdrop-blur-xl',
+    secondary: 'bg-surfaceHighlight/40 text-muted hover:bg-surfaceHighlight/70 hover:text-main border border-black/5 dark:border-white/5 hover:border-black/10 dark:hover:border-white/10 backdrop-blur-sm',
     success: 'bg-emerald-500/90 text-white shadow-lg backdrop-blur-xl border border-emerald-400/30 hover:bg-emerald-600/90',
   };
   
@@ -190,7 +190,27 @@ export function Dock() {
   
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [searchExpanded, setSearchExpanded] = useState(false);
+  const [dockWidth, setDockWidth] = useState<number>(0);
+  const dockRef = useRef<HTMLDivElement>(null);
   const mac = isMac();
+
+  // Sync dock width
+  useEffect(() => {
+    if (dockRef.current) {
+      const resizeObserver = new ResizeObserver((entries) => {
+        for (const entry of entries) {
+           if (entry.borderBoxSize) {
+             setDockWidth(entry.borderBoxSize[0].inlineSize);
+           } else {
+             // Fallback for older browsers
+             setDockWidth(entry.contentRect.width + 32); // Approximate padding if borderBox unavailable
+           }
+        }
+      });
+      resizeObserver.observe(dockRef.current);
+      return () => resizeObserver.disconnect();
+    }
+  }, []);
 
   // Handle keyboard shortcuts
   useKeyboardShortcuts({
@@ -245,22 +265,32 @@ export function Dock() {
   const settingsIndex = navItemsCount + 2;
   
   return (
-    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 transition-all duration-300">
+    <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-30 transition-all duration-300 flex flex-col items-center">
       {/* Search Bar - Above Dock */}
       {searchExpanded && (
-        <div className="mb-3 animate-fade-in">
-          <input
-            type="text"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search credentials..."
-            autoFocus
-            className="w-96 glass-morphism-strong backdrop-blur-xl rounded-2xl px-5 py-3.5 text-sm text-zinc-100 focus:outline-none focus:ring-2 focus:ring-emerald-500/50 focus:border-emerald-500/50 transition-all placeholder:text-zinc-500 shadow-2xl"
-          />
+        <div 
+          className="mb-3 origin-bottom transition-all duration-300 animate-slide-up-scale"
+          style={{ width: dockWidth || 'auto' }}
+        >
+          <div className="w-full dock-glass backdrop-blur-xl rounded-3xl transition-all shadow-xl group focus-within:shadow-[0_0_0_2px_rgba(99,102,241,0.6)]">
+            <input
+              type="text"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onBlur={() => {
+                if (!searchQuery.trim()) {
+                  setSearchExpanded(false);
+                }
+              }}
+              placeholder="Search credentials..."
+              autoFocus
+              className="w-full bg-transparent border-none outline-none focus:outline-none focus-visible:!outline-none px-5 py-4 text-sm text-main placeholder-muted"
+            />
+          </div>
         </div>
       )}
       
-      <div className="bg-zinc-900/40 backdrop-blur-2xl rounded-3xl shadow-2xl px-4 py-4 border border-white/10">
+      <div ref={dockRef} className="dock-glass backdrop-blur-2xl rounded-3xl shadow-2xl px-4 py-4">
         <div className="flex items-center gap-3">
           {/* Navigation Items */}
           {NAV_ITEMS.map((item, idx) => {

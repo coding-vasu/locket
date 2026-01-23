@@ -11,20 +11,21 @@ export default {
       mono: ['JetBrains Mono', 'Menlo', 'monospace'],
     },
     extend: {
-      colors: {
-        background: '#09090b', // Zinc 950
-        surface: '#18181b',    // Zinc 900
-        surfaceHighlight: '#27272a', // Zinc 800
-        border: '#27272a',     // Zinc 800
-        primary: '#6366f1',    // Indigo 500
-        primaryHover: '#4f46e5', // Indigo 600
+        colors: {
+        background: 'rgb(var(--color-background) / <alpha-value>)',
+        surface: 'rgb(var(--color-surface) / <alpha-value>)',
+        surfaceHighlight: 'rgb(var(--color-surface-highlight) / <alpha-value>)',
+        border: 'rgb(var(--color-border) / <alpha-value>)',
+        primary: 'rgb(var(--color-primary) / <alpha-value>)',
+        primaryHover: 'rgb(var(--color-primary-hover) / <alpha-value>)',
+        // Text colors
+        main: 'rgb(var(--color-text-main) / <alpha-value>)',
+        muted: 'rgb(var(--color-text-muted) / <alpha-value>)',
+        dim: 'rgb(var(--color-text-dim) / <alpha-value>)',
         // Gradient colors
-        'gradient-start': '#6366f1', // Indigo 500
-        'gradient-mid': '#a855f7',   // Purple 500
-        'gradient-end': '#ec4899',   // Pink 500
-        'aurora-purple': '#a855f7',
-        'aurora-blue': '#3b82f6',
-        'aurora-pink': '#ec4899',
+        'gradient-start': 'rgb(var(--color-gradient-start) / <alpha-value>)',
+        'gradient-mid': 'rgb(var(--color-gradient-mid) / <alpha-value>)',
+        'gradient-end': 'rgb(var(--color-gradient-end) / <alpha-value>)',
       },
       boxShadow: {
         'glow': '0 0 20px rgba(99, 102, 241, 0.15)',

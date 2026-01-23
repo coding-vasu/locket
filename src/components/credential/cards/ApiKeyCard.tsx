@@ -41,7 +41,7 @@ export function ApiKeyCard({ credential }: ApiKeyCardProps) {
         </div>
         <button
           onClick={() => handleCopy(credential.keyType, 'Key type copied', 'keyType')}
-          className="text-xs text-zinc-500 hover:text-zinc-300 flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-zinc-800/50 transition-all group/type hover:scale-105 active:scale-95"
+          className="text-xs text-muted hover:text-main flex items-center gap-1.5 px-2.5 py-1 rounded-lg hover:bg-surfaceHighlight transition-all group/type hover:scale-105 active:scale-95"
           title="Copy key type"
         >
           <ShieldCheck size={14} weight="bold" className="group-hover/type:text-primary transition-colors" />
@@ -58,13 +58,13 @@ export function ApiKeyCard({ credential }: ApiKeyCardProps) {
       <div className="glass-morphism rounded-lg p-3.5 hover:border-white/20 transition-all group/secret">
         <div className="flex items-start justify-between gap-3 mb-2">
           <div className="flex items-center gap-2">
-            <Code size={16} className="text-zinc-500 flex-shrink-0" weight="bold" />
-            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Secret Key</div>
+            <Code size={16} className="text-muted flex-shrink-0" weight="bold" />
+            <div className="text-[10px] font-bold text-muted uppercase tracking-wider">Secret Key</div>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setShowSecret(!showSecret)}
-              className="text-zinc-500 hover:text-zinc-300 transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-main transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title={showSecret ? 'Hide secret' : 'Show secret'}
               aria-label={showSecret ? 'Hide secret' : 'Show secret'}
             >
@@ -72,7 +72,7 @@ export function ApiKeyCard({ credential }: ApiKeyCardProps) {
             </button>
             <button
               onClick={() => handleCopy(credential.secret, 'API key copied', 'secret')}
-              className="text-zinc-500 hover:text-primary transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-primary transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title="Copy secret"
               aria-label="Copy secret key"
             >
@@ -84,7 +84,7 @@ export function ApiKeyCard({ credential }: ApiKeyCardProps) {
             </button>
           </div>
         </div>
-        <div className="font-mono text-xs text-zinc-300 break-all leading-relaxed">
+        <div className="font-mono text-xs text-main break-all leading-relaxed">
           {showSecret ? credential.secret : '•'.repeat(Math.min(credential.secret.length, 48))}
         </div>
       </div>

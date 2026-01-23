@@ -30,7 +30,7 @@ export function LoginCard({ credential }: LoginCardProps) {
           href={credential.url}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex items-center gap-2 text-xs text-zinc-500 hover:text-primary transition-all duration-200 group"
+          className="flex items-center gap-2 text-xs text-muted hover:text-primary transition-all duration-200 group"
         >
           <Globe size={14} weight="bold" className="group-hover:scale-110 transition-transform" />
           <span className="truncate font-medium">{credential.url.replace(/^https?:\/\//, '')}</span>
@@ -41,12 +41,12 @@ export function LoginCard({ credential }: LoginCardProps) {
       <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
         <div className="flex items-center justify-between gap-3 mb-1.5">
           <div className="flex items-center gap-2">
-            <User size={16} className="text-zinc-500 flex-shrink-0" weight="bold" />
-            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Username</div>
+            <User size={16} className="text-muted flex-shrink-0" weight="bold" />
+            <div className="text-[10px] font-bold text-muted uppercase tracking-wider">Username</div>
           </div>
           <button
             onClick={() => handleCopy(credential.username, 'Username copied', 'username')}
-            className="text-zinc-500 hover:text-primary transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+            className="text-muted hover:text-primary transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
             title="Copy username"
             aria-label="Copy username"
           >
@@ -57,7 +57,7 @@ export function LoginCard({ credential }: LoginCardProps) {
             )}
           </button>
         </div>
-        <div className="font-mono text-sm text-zinc-200 truncate pl-6">
+        <div className="font-mono text-sm text-main truncate pl-6">
           {credential.username}
         </div>
       </div>
@@ -66,13 +66,13 @@ export function LoginCard({ credential }: LoginCardProps) {
       <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
         <div className="flex items-center justify-between gap-3 mb-1.5">
           <div className="flex items-center gap-2">
-            <Key size={16} className="text-zinc-500 flex-shrink-0" weight="bold" />
-            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Password</div>
+            <Key size={16} className="text-muted flex-shrink-0" weight="bold" />
+            <div className="text-[10px] font-bold text-muted uppercase tracking-wider">Password</div>
           </div>
           <div className="flex items-center gap-1">
             <button
               onClick={() => setShowPassword(!showPassword)}
-              className="text-zinc-500 hover:text-zinc-300 transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-main transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title={showPassword ? 'Hide password' : 'Show password'}
               aria-label={showPassword ? 'Hide password' : 'Show password'}
             >
@@ -80,7 +80,7 @@ export function LoginCard({ credential }: LoginCardProps) {
             </button>
             <button
               onClick={() => handleCopy(credential.password, 'Password copied', 'password')}
-              className="text-zinc-500 hover:text-primary transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-primary transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title="Copy password"
               aria-label="Copy password"
             >
@@ -92,13 +92,13 @@ export function LoginCard({ credential }: LoginCardProps) {
             </button>
           </div>
         </div>
-        <div className="font-mono text-sm text-zinc-200 pl-6 mb-2">
+        <div className="font-mono text-sm text-main pl-6 mb-2">
           {showPassword ? credential.password : '•'.repeat(credential.password.length)}
         </div>
         
         {/* Password Strength Indicator */}
         <div className="flex items-center gap-2 pl-6">
-          <div className="flex-1 h-1 bg-zinc-800 rounded-full overflow-hidden">
+          <div className="flex-1 h-1 bg-surfaceHighlight rounded-full overflow-hidden">
             <div 
               className={`h-full ${strengthConfig.bg} transition-all duration-300`}
               style={{ 

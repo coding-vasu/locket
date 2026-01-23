@@ -9,6 +9,8 @@ export function SettingsModal() {
   const closeSettings = useUIStore((state) => state.closeSettings);
   const dockSize = useUIStore((state) => state.dockSize);
   const setDockSize = useUIStore((state) => state.setDockSize);
+  const theme = useUIStore((state) => state.theme);
+  const setTheme = useUIStore((state) => state.setTheme);
   
   const tabs = [
     { name: 'General', icon: Info },
@@ -29,7 +31,7 @@ export function SettingsModal() {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="fixed inset-0 bg-black/60 backdrop-blur-sm" />
+          <div className="fixed inset-0 bg-background/80 backdrop-blur-sm" />
         </Transition.Child>
 
         <div className="fixed inset-0 overflow-y-auto">
@@ -46,15 +48,15 @@ export function SettingsModal() {
               <Dialog.Panel className="w-full max-w-3xl transform overflow-hidden rounded-2xl bg-surface border border-border shadow-2xl transition-all">
                 {/* Header */}
                 <div className="flex items-center justify-between px-6 py-4 border-b border-border/50">
-                  <Dialog.Title className="text-xl font-bold text-white flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center overflow-hidden shrink-0">
+                  <Dialog.Title className="text-xl font-bold text-main flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-surfaceHighlight to-surface border border-border flex items-center justify-center overflow-hidden shrink-0">
                       <img src="/icon.png" alt="Locket" className="w-full h-full object-cover" />
                     </div>
                     Settings
                   </Dialog.Title>
                   <button
                     onClick={closeSettings}
-                    className="p-2 rounded-lg hover:bg-surfaceHighlight/50 transition-colors text-zinc-400 hover:text-white"
+                    className="p-2 rounded-lg hover:bg-surfaceHighlight/50 transition-colors text-muted hover:text-main"
                   >
                     <X size={20} weight="bold" />
                   </button>
@@ -73,8 +75,8 @@ export function SettingsModal() {
                               clsx(
                                 'px-4 py-3 text-sm font-medium transition-all outline-none flex items-center gap-2',
                                 selected
-                                  ? 'text-white border-b-2 border-primary'
-                                  : 'text-zinc-400 hover:text-zinc-200'
+                                  ? 'text-main border-b-2 border-primary'
+                                  : 'text-muted hover:text-main'
                               )
                             }
                           >
@@ -95,14 +97,14 @@ export function SettingsModal() {
                     {/* General */}
                     <Tab.Panel className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">General Settings</h3>
+                        <h3 className="text-lg font-semibold text-main mb-4">General Settings</h3>
                         <div className="space-y-3">
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
-                            <p className="text-sm text-zinc-300">
+                            <p className="text-sm text-dim">
                               Configure general application preferences and behavior.
                             </p>
                           </div>
-                          <div className="text-xs text-zinc-500 italic">
+                          <div className="text-xs text-muted italic">
                             Coming soon: Language preferences, default view, auto-lock timer
                           </div>
                         </div>
@@ -112,16 +114,16 @@ export function SettingsModal() {
                     {/* Security */}
                     <Tab.Panel className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">Security Settings</h3>
+                        <h3 className="text-lg font-semibold text-main mb-4">Security Settings</h3>
                         <div className="space-y-3">
                           <div className="p-4 rounded-lg bg-green-500/10 border border-green-500/20">
                             <div className="flex items-start gap-3">
-                              <ShieldCheck size={20} className="text-green-400 mt-0.5" weight="bold" />
+                              <ShieldCheck size={20} className="text-green-600 dark:text-green-400 mt-0.5" weight="bold" />
                               <div>
-                                <p className="text-sm font-medium text-green-300 mb-1">
+                                <p className="text-sm font-medium text-green-800 dark:text-green-300 mb-1">
                                   Encryption Active
                                 </p>
-                                <p className="text-xs text-green-200/80">
+                                <p className="text-xs text-green-700/80 dark:text-green-200/80">
                                   Your data is secured using AES-GCM encryption and stored locally on your device.
                                 </p>
                               </div>
@@ -130,12 +132,12 @@ export function SettingsModal() {
                           
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30 space-y-3">
                             <div>
-                                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Method</p>
-                                <p className="text-sm text-white font-mono">AES-GCM (256-bit)</p>
+                                <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Method</p>
+                                <p className="text-sm text-main font-mono">AES-GCM (256-bit)</p>
                             </div>
                             <div>
-                                <p className="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1">Storage Location</p>
-                                <p className="text-sm text-white font-mono">~/Library/Application Support/com.locket.app/store/locket_data.enc</p>
+                                <p className="text-xs font-semibold text-muted uppercase tracking-wider mb-1">Storage Location</p>
+                                <p className="text-sm text-main font-mono">~/Library/Application Support/com.locket.app/store/locket_data.enc</p>
                             </div>
                           </div>
                         </div>
@@ -145,27 +147,48 @@ export function SettingsModal() {
                     {/* Appearance */}
                     <Tab.Panel className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">Appearance Settings</h3>
+                        <h3 className="text-lg font-semibold text-main mb-4">Appearance Settings</h3>
                         <div className="space-y-3">
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
-                            <p className="text-sm text-zinc-300 mb-2">
-                              Current theme: <span className="font-semibold text-white">Dark Mode</span>
+                            <p className="text-sm text-muted mb-2">
+                              Current theme: <span className="font-semibold text-main capitalize">{theme} Mode</span>
                             </p>
-                            <p className="text-xs text-zinc-400">
+                            <p className="text-xs text-dim">
                               Glassmorphism effects and modern design enabled
                             </p>
                           </div>
-                          <div className="text-xs text-zinc-500 italic">
-                            Coming soon: Theme customization, accent colors, density options
+                          <div className="text-xs text-muted italic">
+                            Coming soon: Accent colors, density options
+                          </div>
+
+                          {/* Theme Selector */}
+                          <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
+                            <h4 className="text-sm font-medium text-main mb-3">Theme</h4>
+                            <div className="grid grid-cols-3 gap-2">
+                              {(['light', 'dark', 'system'] as const).map((t) => (
+                                <button
+                                  key={t}
+                                  onClick={() => setTheme(t)}
+                                  className={clsx(
+                                    'px-3 py-2 rounded-md text-sm font-medium transition-all border',
+                                    theme === t
+                                      ? 'bg-primary text-white border-primary'
+                                      : 'bg-surface border-border text-muted hover:text-main hover:border-dim'
+                                  )}
+                                >
+                                  {t.charAt(0).toUpperCase() + t.slice(1)}
+                                </button>
+                              ))}
+                            </div>
                           </div>
 
                           {/* Dock Size Slider */}
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
                             <div className="flex items-center justify-between mb-2">
-                              <label htmlFor="dock-size" className="text-sm font-medium text-white">
+                              <label htmlFor="dock-size" className="text-sm font-medium text-main">
                                 Dock Size
                               </label>
-                              <span className="text-xs text-zinc-400">{dockSize}px</span>
+                              <span className="text-xs text-muted">{dockSize}px</span>
                             </div>
                             <input
                               type="range"
@@ -174,11 +197,11 @@ export function SettingsModal() {
                               max="100"
                               value={dockSize}
                               onChange={(e) => setDockSize(Number(e.target.value))}
-                              className="w-full h-2 bg-zinc-700 rounded-lg appearance-none cursor-pointer accent-primary"
+                              className="w-full h-2 bg-border rounded-lg appearance-none cursor-pointer accent-primary"
                             />
                             <div className="flex justify-between mt-1">
-                              <span className="text-[10px] text-zinc-500">Small</span>
-                              <span className="text-[10px] text-zinc-500">Large</span>
+                              <span className="text-[10px] text-dim">Small</span>
+                              <span className="text-[10px] text-dim">Large</span>
                             </div>
                           </div>
                         </div>
@@ -188,31 +211,31 @@ export function SettingsModal() {
                     {/* About */}
                     <Tab.Panel className="space-y-4">
                       <div>
-                        <h3 className="text-lg font-semibold text-white mb-4">About Locket</h3>
+                        <h3 className="text-lg font-semibold text-main mb-4">About Locket</h3>
                         <div className="space-y-4">
                           <div className="flex items-center gap-6">
-                            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-zinc-800 to-zinc-900 border border-white/10 flex items-center justify-center shadow-2xl overflow-hidden shrink-0">
+                            <div className="w-24 h-24 rounded-3xl bg-gradient-to-br from-surfaceHighlight to-surface border border-border flex items-center justify-center shadow-2xl overflow-hidden shrink-0">
                               <img src="/icon.png" alt="Locket Logo" className="w-full h-full object-cover" />
                             </div>
                             <div>
-                              <h4 className="text-lg font-bold text-white">Locket</h4>
-                              <p className="text-sm text-zinc-400">Developer Edition v1.0.0</p>
+                              <h4 className="text-lg font-bold text-main">Locket</h4>
+                              <p className="text-sm text-muted">Developer Edition v1.0.0</p>
                             </div>
                           </div>
                           
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30 space-y-2">
-                            <p className="text-xs text-zinc-300">
-                              <strong className="text-white">Built with:</strong> React 18, TypeScript, TailwindCSS, Zustand
+                            <p className="text-xs text-dim">
+                              <strong className="text-main">Built with:</strong> React 18, TypeScript, TailwindCSS, Zustand
                             </p>
-                            <p className="text-xs text-zinc-300">
-                              <strong className="text-white">Features:</strong> Multi-type credentials, Real-time search, Password generator
+                            <p className="text-xs text-dim">
+                              <strong className="text-main">Features:</strong> Multi-type credentials, Real-time search, Password generator
                             </p>
-                            <p className="text-xs text-zinc-300">
-                              <strong className="text-white">License:</strong> MIT
+                            <p className="text-xs text-dim">
+                              <strong className="text-main">License:</strong> MIT
                             </p>
                           </div>
                           
-                          <div className="text-xs text-zinc-500 text-center pt-2">
+                          <div className="text-xs text-muted text-center pt-2">
                             Built with ❤️ using modern web technologies
                           </div>
                         </div>

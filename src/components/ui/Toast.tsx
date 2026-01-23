@@ -20,7 +20,7 @@ export function ToastContainer() {
           leaveFrom="opacity-100 scale-100"
           leaveTo="opacity-0 scale-90"
         >
-          <div className="bg-zinc-800 border border-zinc-700 text-white px-4 py-2.5 rounded-lg shadow-2xl flex items-center gap-3 min-w-[200px]">
+          <div className="bg-surface border border-border text-main px-4 py-2.5 rounded-lg shadow-2xl flex items-center gap-3 min-w-[200px]">
             <CheckCircle size={20} weight="fill" className="text-emerald-400" />
             <span className="font-medium text-sm">{toast.message}</span>
           </div>

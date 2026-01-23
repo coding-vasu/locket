@@ -32,6 +32,10 @@ interface UIStore {
   isShortcutsOpen: boolean;
   openShortcuts: () => void;
   closeShortcuts: () => void;
+
+  // Theme state
+  theme: 'light' | 'dark' | 'system';
+  setTheme: (theme: 'light' | 'dark' | 'system') => void;
 }
 
 export const useUIStore = create<UIStore>()(
@@ -122,11 +126,16 @@ export const useUIStore = create<UIStore>()(
       closeShortcuts: () => {
         set({ isShortcutsOpen: false });
       },
+
+      // Theme
+      theme: 'system',
+      setTheme: (theme) => set({ theme }),
     }),
     {
       name: 'ui-storage',
       partialize: (state) => ({ 
-        dockSize: state.dockSize 
+        dockSize: state.dockSize,
+        theme: state.theme
       }),
     }
   )
