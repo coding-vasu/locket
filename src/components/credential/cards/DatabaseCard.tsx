@@ -60,10 +60,10 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
         {/* Host:Port */}
         <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
           <div className="flex items-center justify-between gap-3 mb-1.5">
-            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Host : Port</div>
+            <div className="text-[10px] font-bold text-muted uppercase tracking-wider">Host : Port</div>
             <button
               onClick={() => handleCopyField(`${credential.dbHost}:${credential.dbPort}`, 'Host', 'host')}
-              className="text-zinc-500 hover:text-primary transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-primary transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title="Copy host and port"
               aria-label="Copy host and port"
             >
@@ -74,16 +74,16 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
               )}
             </button>
           </div>
-          <div className="font-mono text-sm text-zinc-200 truncate">{credential.dbHost}:{credential.dbPort}</div>
+          <div className="font-mono text-sm text-main truncate">{credential.dbHost}:{credential.dbPort}</div>
         </div>
         
         {/* Database Name */}
         <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
           <div className="flex items-center justify-between gap-3 mb-1.5">
-            <div className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Database</div>
+            <div className="text-[10px] font-bold text-muted uppercase tracking-wider">Database</div>
             <button
               onClick={() => handleCopyField(credential.dbName, 'Database name', 'dbName')}
-              className="text-zinc-500 hover:text-primary transition-all duration-200 p-1 rounded hover:bg-zinc-800 hover:scale-110 active:scale-95"
+              className="text-muted hover:text-primary transition-all duration-200 p-1 rounded hover:bg-surfaceHighlight hover:scale-110 active:scale-95"
               title="Copy database name"
               aria-label="Copy database name"
             >
@@ -94,7 +94,7 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
               )}
             </button>
           </div>
-          <div className="font-mono text-sm text-zinc-200 truncate">{credential.dbName}</div>
+          <div className="font-mono text-sm text-main truncate">{credential.dbName}</div>
         </div>
         
         {/* User & Password */}
@@ -103,12 +103,12 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
           <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
             <div className="flex items-center justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5">
-                <UserCircle size={14} weight="fill" className="text-zinc-500 flex-shrink-0" />
-                <div className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">User</div>
+                <UserCircle size={14} weight="fill" className="text-muted flex-shrink-0" />
+                <div className="text-[9px] font-bold text-muted uppercase tracking-wider">User</div>
               </div>
               <button
                 onClick={() => handleCopyField(credential.dbUser, 'Username', 'dbUser')}
-                className="text-zinc-500 hover:text-primary transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
+                className="text-muted hover:text-primary transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
                 title="Copy username"
                 aria-label="Copy username"
               >
@@ -119,20 +119,20 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
                 )}
               </button>
             </div>
-            <div className="font-mono text-xs text-zinc-200 truncate">{credential.dbUser}</div>
+            <div className="font-mono text-xs text-main truncate">{credential.dbUser}</div>
           </div>
           
           {/* Password */}
           <div className="glass-morphism rounded-lg p-3 hover:border-white/20 transition-all group/field">
             <div className="flex items-center justify-between gap-2 mb-1.5">
               <div className="flex items-center gap-1.5">
-                <Key size={14} weight="fill" className="text-zinc-500 flex-shrink-0" />
-                <div className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider">Pass</div>
+                <Key size={14} weight="fill" className="text-muted flex-shrink-0" />
+                <div className="text-[9px] font-bold text-muted uppercase tracking-wider">Pass</div>
               </div>
               <div className="flex items-center gap-0.5">
                 <button
                   onClick={() => setShowPassword(!showPassword)}
-                  className="text-zinc-500 hover:text-zinc-300 transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
+                  className="text-muted hover:text-main transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
                   title={showPassword ? 'Hide password' : 'Show password'}
                   aria-label={showPassword ? 'Hide password' : 'Show password'}
                 >
@@ -140,7 +140,7 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
                 </button>
                 <button
                   onClick={() => handleCopyField(credential.dbPass, 'Password', 'dbPass')}
-                  className="text-zinc-500 hover:text-primary transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
+                  className="text-muted hover:text-primary transition-all duration-200 p-0.5 rounded hover:scale-110 active:scale-95"
                   title="Copy password"
                   aria-label="Copy password"
                 >
@@ -152,7 +152,7 @@ export function DatabaseCard({ credential }: DatabaseCardProps) {
                 </button>
               </div>
             </div>
-            <div className="font-mono text-xs text-zinc-200">
+            <div className="font-mono text-xs text-main">
               {showPassword ? credential.dbPass : '•'.repeat(Math.min(credential.dbPass.length, 8))}
             </div>
           </div>

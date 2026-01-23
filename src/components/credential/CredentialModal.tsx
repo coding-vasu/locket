@@ -23,6 +23,7 @@ export function CredentialModal() {
   
   useEffect(() => {
     if (modalMode === 'edit' && editingCredential) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData(editingCredential);
     } else if (modalMode === 'add') {
       setFormData(getInitialFormData());
@@ -76,7 +77,7 @@ export function CredentialModal() {
         <div className="p-6 space-y-5">
           {/* Type Tabs */}
           {modalMode !== 'edit' && (
-            <div className="flex p-1 bg-zinc-950/50 border border-border rounded-lg">
+            <div className="flex p-1 bg-surfaceHighlight/50 border border-border rounded-lg">
               {(['login', 'api', 'database', 'note'] as CredentialType[]).map((type) => (
                 <button
                   key={type}
@@ -85,8 +86,8 @@ export function CredentialModal() {
                   className={clsx(
                     'flex-1 py-1.5 rounded-md text-xs font-medium transition-all capitalize',
                     formData.type === type
-                      ? 'bg-zinc-800 text-white shadow-sm'
-                      : 'text-zinc-500 hover:text-zinc-300'
+                      ? 'bg-surface text-main shadow-sm'
+                      : 'text-muted hover:text-main'
                   )}
                 >
                   {type}
@@ -122,7 +123,7 @@ export function CredentialModal() {
                   onChange={(e) => updateField('username', e.target.value)}
                 />
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                  <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                     Password
                   </label>
                   <div className="relative">
@@ -130,7 +131,7 @@ export function CredentialModal() {
                       type={showPassword ? 'text' : 'password'}
                       value={formData.password || ''}
                       onChange={(e) => updateField('password', e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 pr-16 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600 font-mono"
+                      className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-16 text-sm text-main focus:outline-none focus:border-dim font-mono"
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                       <button
@@ -160,13 +161,13 @@ export function CredentialModal() {
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                  <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                     Environment
                   </label>
                   <select
                     value={formData.env}
                     onChange={(e) => updateField('env', e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-main focus:outline-none focus:border-dim"
                   >
                     {API_ENVIRONMENTS.map((env) => (
                       <option key={env}>{env}</option>
@@ -174,13 +175,13 @@ export function CredentialModal() {
                   </select>
                 </div>
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                  <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                     Key Type
                   </label>
                   <select
                     value={formData.keyType}
                     onChange={(e) => updateField('keyType', e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-main focus:outline-none focus:border-dim"
                   >
                     {API_KEY_TYPES.map((type) => (
                       <option key={type}>{type}</option>
@@ -189,13 +190,13 @@ export function CredentialModal() {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                   Secret Key
                 </label>
                 <textarea
                   value={formData.secret || ''}
                   onChange={(e) => updateField('secret', e.target.value)}
-                  className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600 font-mono min-h-[80px]"
+                  className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-main focus:outline-none focus:border-dim font-mono min-h-[80px]"
                   placeholder="sk_..."
                 />
               </div>
@@ -207,13 +208,13 @@ export function CredentialModal() {
             <>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                  <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                     Engine
                   </label>
                   <select
                     value={formData.dbEngine}
                     onChange={(e) => updateField('dbEngine', e.target.value)}
-                    className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600"
+                    className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-main focus:outline-none focus:border-dim"
                   >
                     {DATABASE_ENGINES.map((engine) => (
                       <option key={engine}>{engine}</option>
@@ -253,7 +254,7 @@ export function CredentialModal() {
                   onChange={(e) => updateField('dbUser', e.target.value)}
                 />
                 <div className="space-y-1.5">
-                  <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+                  <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                     Password
                   </label>
                   <div className="relative">
@@ -261,7 +262,7 @@ export function CredentialModal() {
                       type={showPassword ? 'text' : 'password'}
                       value={formData.dbPass || ''}
                       onChange={(e) => updateField('dbPass', e.target.value)}
-                      className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 pr-16 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600 font-mono"
+                      className="w-full bg-background border border-border rounded-lg px-3 py-2.5 pr-16 text-sm text-main focus:outline-none focus:border-dim font-mono"
                     />
                     <div className="absolute right-2 top-1/2 -translate-y-1/2 flex items-center gap-1">
                       <button
@@ -289,13 +290,13 @@ export function CredentialModal() {
           {/* Note Form */}
           {formData.type === 'note' && (
             <div className="space-y-1.5">
-              <label className="block text-[11px] font-bold text-zinc-500 uppercase tracking-wider">
+              <label className="block text-[11px] font-bold text-muted uppercase tracking-wider">
                 Content
               </label>
               <textarea
                 value={formData.content || ''}
                 onChange={(e) => updateField('content', e.target.value)}
-                className="w-full bg-zinc-950 border border-zinc-800 rounded-lg px-3 py-2.5 text-sm text-zinc-200 focus:outline-none focus:border-zinc-600 min-h-[120px] resize-none"
+                className="w-full bg-background border border-border rounded-lg px-3 py-2.5 text-sm text-main focus:outline-none focus:border-dim min-h-[120px] resize-none"
                 placeholder="Enter secure notes here..."
               />
             </div>

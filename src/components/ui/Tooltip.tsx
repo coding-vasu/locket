@@ -84,7 +84,7 @@ export function Tooltip({
 
   const tooltipElement = isVisible ? (
     <div 
-      className="fixed z-[9999] px-2.5 py-1.5 text-xs font-medium text-zinc-200 bg-zinc-800 border border-zinc-700 rounded-md shadow-lg whitespace-nowrap pointer-events-none animate-fade-in"
+      className="fixed z-[9999] px-2.5 py-1.5 text-xs font-medium text-main bg-surface border border-border rounded-md shadow-xl whitespace-nowrap pointer-events-none animate-fade-in"
       style={{
         top: coords.top,
         left: coords.left,

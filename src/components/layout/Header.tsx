@@ -28,27 +28,27 @@ export function Header() {
           <MagnifyingGlass 
             size={18} 
             weight="bold" 
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 group-focus-within:text-primary transition-colors" 
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted group-focus-within:text-primary transition-colors" 
           />
           <input
             type="text"
             placeholder="Search credentials..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-10 pl-11 pr-20 bg-zinc-900/50 border border-zinc-800 rounded-lg text-sm text-zinc-200 placeholder-zinc-600 focus:outline-none focus:border-primary/50 focus:bg-zinc-900/70 transition-all"
+            className="w-full h-10 pl-11 pr-20 bg-surface/50 border border-border rounded-lg text-sm text-main placeholder-dim focus:outline-none focus:border-primary/50 focus:bg-surface/70 transition-all"
             aria-label="Search credentials"
           />
           {searchQuery && (
             <button
               onClick={handleClearSearch}
-              className="absolute right-12 top-1/2 -translate-y-1/2 text-zinc-500 hover:text-zinc-300 transition-colors p-1 rounded hover:bg-zinc-800"
+              className="absolute right-12 top-1/2 -translate-y-1/2 text-muted hover:text-main transition-colors p-1 rounded hover:bg-surfaceHighlight"
               title="Clear search"
               aria-label="Clear search"
             >
               <X size={16} weight="bold" />
             </button>
           )}
-          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 text-[10px] font-semibold text-zinc-600 bg-zinc-800/50 border border-zinc-700 rounded">
+          <kbd className="absolute right-3 top-1/2 -translate-y-1/2 px-2 py-0.5 text-[10px] font-semibold text-muted bg-surfaceHighlight/50 border border-border rounded">
             ⌘K
           </kbd>
         </div>
@@ -67,7 +67,7 @@ export function Header() {
         </button>
         <button
           onClick={openSettings}
-          className="p-2.5 text-zinc-400 hover:text-zinc-200 hover:bg-zinc-800/70 rounded-lg transition-all"
+          className="p-2.5 text-dim hover:text-main hover:bg-surfaceHighlight/70 rounded-lg transition-all"
           title="Settings (⌘,)"
           aria-label="Open settings"
         >

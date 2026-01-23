@@ -13,6 +13,7 @@ interface EncryptedFileContent {
 
 export const encryptedStorage: StateStorage = {
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getItem: async (_name: string): Promise<string | null> => {
     try {
       // Check if file exists in AppData directory
@@ -65,6 +66,7 @@ export const encryptedStorage: StateStorage = {
     }
   },
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (_name: string): Promise<void> => {
     // We strictly probably shouldn't delete the whole file for one key if we shared it,
     // but here the store is monolithic.

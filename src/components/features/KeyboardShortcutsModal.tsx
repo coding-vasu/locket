@@ -52,12 +52,12 @@ export function KeyboardShortcutsModal() {
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
-            <h2 className="text-2xl font-bold text-white">Keyboard Shortcuts</h2>
-            <p className="text-sm text-zinc-400 mt-1">Master these shortcuts to boost your productivity</p>
+            <h2 className="text-2xl font-bold text-main">Keyboard Shortcuts</h2>
+            <p className="text-sm text-dim mt-1">Master these shortcuts to boost your productivity</p>
           </div>
           <button
             onClick={closeShortcuts}
-            className="w-10 h-10 rounded-xl bg-zinc-800/60 hover:bg-zinc-700/70 text-zinc-400 hover:text-white transition-all duration-200 flex items-center justify-center"
+            className="w-10 h-10 rounded-xl bg-surfaceHighlight/60 hover:bg-surfaceHighlight text-muted hover:text-main transition-all duration-200 flex items-center justify-center"
           >
             <X size={20} weight="bold" />
           </button>
@@ -67,17 +67,17 @@ export function KeyboardShortcutsModal() {
         <div className="space-y-6">
           {categories.map((category, idx) => (
             <div key={idx}>
-              <h3 className="text-sm font-semibold text-zinc-400 uppercase tracking-wider mb-3">
+              <h3 className="text-sm font-semibold text-dim uppercase tracking-wider mb-3">
                 {category.title}
               </h3>
               <div className="space-y-2">
                 {category.shortcuts.map((shortcut, sidx) => (
                   <div
                     key={sidx}
-                    className="flex items-center justify-between py-3 px-4 rounded-xl bg-zinc-800/40 hover:bg-zinc-800/60 transition-colors"
+                    className="flex items-center justify-between py-3 px-4 rounded-xl bg-surfaceHighlight/40 hover:bg-surfaceHighlight/60 transition-colors"
                   >
-                    <span className="text-zinc-200 text-sm">{shortcut.description}</span>
-                    <kbd className="flex items-center gap-1 px-3 py-1.5 bg-zinc-900 border border-zinc-700 rounded-lg text-xs font-mono text-zinc-300 shadow-sm">
+                    <span className="text-main text-sm">{shortcut.description}</span>
+                    <kbd className="flex items-center gap-1 px-3 py-1.5 bg-surface border border-border rounded-lg text-xs font-mono text-muted shadow-sm">
                       {shortcut.keys}
                     </kbd>
                   </div>
@@ -88,9 +88,9 @@ export function KeyboardShortcutsModal() {
         </div>
 
         {/* Footer Note */}
-        <div className="mt-6 pt-6 border-t border-zinc-800">
-          <p className="text-xs text-zinc-500 text-center">
-            Press <kbd className="px-2 py-0.5 bg-zinc-800 border border-zinc-700 rounded text-zinc-400">Esc</kbd> to close this dialog
+        <div className="mt-6 pt-6 border-t border-border">
+          <p className="text-xs text-muted text-center">
+            Press <kbd className="px-2 py-0.5 bg-surface border border-border rounded text-dim">Esc</kbd> to close this dialog
           </p>
         </div>
       </div>

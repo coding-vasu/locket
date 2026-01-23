@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { MainLayout } from './components/layout/MainLayout';
 import { CredentialList } from './components/credential/CredentialList';
 import { CredentialModal } from './components/credential/CredentialModal';
@@ -18,9 +19,26 @@ function App() {
   const isModalOpen = useUIStore((state) => state.isModalOpen);
   const isSettingsOpen = useUIStore((state) => state.isSettingsOpen);
   const isShortcutsOpen = useUIStore((state) => state.isShortcutsOpen);
+  const theme = useUIStore((state) => state.theme);
   const setFilter = useCredentialStore((state) => state.setFilter);
   const searchQuery = useCredentialStore((state) => state.searchQuery);
   const setSearchQuery = useCredentialStore((state) => state.setSearchQuery);
+
+  // Apply theme
+  useEffect(() => {
+    const root = window.document.documentElement;
+    root.classList.remove('light', 'dark');
+
+    if (theme === 'system') {
+      const systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light';
+      root.classList.add(systemTheme);
+      return;
+    }
+
+    root.classList.add(theme);
+  }, [theme]);
 
   // Keyboard shortcuts (using standard Cmd/Ctrl combinations)
   useKeyboardShortcuts({

@@ -43,7 +43,7 @@ export function CredentialCard({ credential }: CredentialCardProps) {
   return (
     <div className="group relative glass-morphism rounded-2xl flex flex-col overflow-hidden h-full max-h-[440px] card-3d spotlight-border pulse-icon-hover">
       {/* Header Section */}
-      <div className="p-5 pb-4 border-b border-white/10">
+      <div className="p-5 pb-4 border-b border-border">
         <div className="flex justify-between items-start mb-3">
           <div className={clsx(
             'w-11 h-11 rounded-xl flex items-center justify-center border shadow-sm icon-pulse transition-all duration-300',
@@ -55,7 +55,7 @@ export function CredentialCard({ credential }: CredentialCardProps) {
             <Tooltip content="Copy All Details" position="top">
               <button
                 onClick={handleCopyAll}
-                className="text-zinc-500 hover:text-primary transition-all duration-200 p-2 rounded-lg hover:bg-zinc-800/70 hover:scale-110 active:scale-95 ripple-effect"
+                className="text-muted hover:text-primary transition-all duration-200 p-2 rounded-lg hover:bg-surfaceHighlight/70 hover:scale-110 active:scale-95 ripple-effect"
                 aria-label="Copy all credential details"
               >
                 <ClipboardText size={19} weight="bold" />
@@ -64,7 +64,7 @@ export function CredentialCard({ credential }: CredentialCardProps) {
             <Tooltip content="Delete Credential" position="top">
               <button
                 onClick={handleDelete}
-                className="text-zinc-500 hover:text-red-400 transition-all duration-200 p-2 rounded-lg hover:bg-zinc-800/70 hover:scale-110 active:scale-95 ripple-effect"
+                className="text-muted hover:text-red-400 transition-all duration-200 p-2 rounded-lg hover:bg-surfaceHighlight/70 hover:scale-110 active:scale-95 ripple-effect"
                 aria-label="Delete credential"
               >
                 <Trash size={19} weight="bold" />
@@ -74,17 +74,17 @@ export function CredentialCard({ credential }: CredentialCardProps) {
         </div>
         
         <div className="space-y-1">
-          <h3 className="font-semibold text-base text-zinc-50 leading-tight line-clamp-1">
+          <h3 className="font-semibold text-base text-main leading-tight line-clamp-1">
             {credential.title}
           </h3>
-          <p className="text-xs text-zinc-500 truncate">
+          <p className="text-xs text-muted truncate">
             {credential.subtitle}
           </p>
         </div>
       </div>
 
       {/* Body (Polymorphic Content) */}
-      <div className="flex-1 p-5 pt-4 overflow-auto">
+      <div className="flex-1 p-5 pt-4 overflow-auto no-scrollbar">
         {credential.type === 'login' && <LoginCard credential={credential} />}
         {credential.type === 'api' && <ApiKeyCard credential={credential} />}
         {credential.type === 'database' && <DatabaseCard credential={credential} />}
@@ -92,11 +92,11 @@ export function CredentialCard({ credential }: CredentialCardProps) {
       </div>
 
       {/* Footer */}
-      <div className="px-5 pb-4 mt-auto flex items-center justify-between border-t border-white/10 pt-3">
-        <span className="text-xs text-zinc-600 font-medium">{credential.date}</span>
+      <div className="px-5 pb-4 mt-auto flex items-center justify-between border-t border-border pt-3">
+        <span className="text-xs text-dim font-medium">{credential.date}</span>
         <button
           onClick={handleEdit}
-          className="text-zinc-400 hover:text-primary transition-all duration-200 flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-zinc-800/70 hover:scale-105 active:scale-95"
+          className="text-muted hover:text-primary transition-all duration-200 flex items-center gap-2 text-xs font-semibold px-3 py-2 rounded-lg hover:bg-surfaceHighlight/70 hover:scale-105 active:scale-95"
           aria-label="Edit credential"
         >
           <PencilSimple size={15} weight="bold" /> Edit

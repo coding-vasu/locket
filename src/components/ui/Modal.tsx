@@ -43,21 +43,21 @@ export function Modal({ isOpen, onClose, title, subtitle, children }: ModalProps
                 {/* Header */}
                 <div className="px-6 py-4 border-b border-border flex justify-between items-center bg-surfaceHighlight/30">
                   <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 rounded-lg bg-zinc-800 border border-zinc-700 flex items-center justify-center">
-                      <span className="text-zinc-400 text-lg">+</span>
+                    <div className="w-8 h-8 rounded-lg bg-surfaceHighlight border border-border flex items-center justify-center">
+                      <span className="text-muted text-lg">+</span>
                     </div>
                     <div>
-                      <Dialog.Title className="text-base font-semibold text-white">
+                      <Dialog.Title className="text-base font-semibold text-main">
                         {title}
                       </Dialog.Title>
                       {subtitle && (
-                        <p className="text-xs text-zinc-500">{subtitle}</p>
+                        <p className="text-xs text-muted">{subtitle}</p>
                       )}
                     </div>
                   </div>
                   <button
                     onClick={onClose}
-                    className="text-zinc-500 hover:text-white transition-colors w-8 h-8 flex items-center justify-center rounded-md hover:bg-white/5"
+                    className="text-muted hover:text-main transition-colors w-8 h-8 flex items-center justify-center rounded-md hover:bg-surfaceHighlight/50"
                   >
                     <X size={20} weight="bold" />
                   </button>

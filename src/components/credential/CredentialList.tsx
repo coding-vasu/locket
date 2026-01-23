@@ -46,11 +46,11 @@ export function CredentialList() {
     
     return (
       <div className="flex flex-col items-center justify-center pt-24 opacity-60">
-        <Ghost size={72} weight="duotone" className="mb-5 text-zinc-600" />
-        <p className="text-zinc-400 text-lg font-medium mb-2">
+        <Ghost size={72} weight="duotone" className="mb-5 text-muted" />
+        <p className="text-dim text-lg font-medium mb-2">
           {isSearching ? 'No matching credentials' : isFiltered ? 'No items in this category' : 'No credentials yet'}
         </p>
-        <p className="text-zinc-600 text-sm mb-6">
+        <p className="text-muted text-sm mb-6">
           {isSearching ? 'Try a different search term' : 'Get started by adding your first credential'}
         </p>
         {!isSearching && (
