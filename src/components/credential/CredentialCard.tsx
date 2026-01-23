@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Trash, PencilSimple, ClipboardText } from '@phosphor-icons/react';
+import { Trash, PencilSimple, ClipboardText, Globe, Code, Database, Notepad } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import type { Credential, CredentialFormData } from '../../types/credential.types';
 import { CREDENTIAL_ICONS } from '../../constants';
@@ -17,13 +17,22 @@ interface CredentialCardProps {
   credential: Credential;
 }
 
+const ICON_MAP = {
+  globe: Globe,
+  code: Code,
+  database: Database,
+  notepad: Notepad,
+};
+
 export const CredentialCard = memo(function CredentialCard({ credential }: CredentialCardProps) {
   const deleteCredential = useCredentialStore((state) => state.deleteCredential);
   const openEditModal = useUIStore((state) => state.openEditModal);
   const addToast = useUIStore((state) => state.addToast);
   const { copyToClipboard } = useClipboard();
   
+  
   const iconConfig = CREDENTIAL_ICONS[credential.type];
+  const IconComponent = ICON_MAP[iconConfig.icon as keyof typeof ICON_MAP] || Globe;
   
   const handleDelete = () => {
     if (confirm('Are you sure you want to delete this credential?')) {
@@ -50,7 +59,7 @@ export const CredentialCard = memo(function CredentialCard({ credential }: Crede
             'w-11 h-11 rounded-xl flex items-center justify-center border shadow-sm icon-pulse transition-all duration-300',
             iconConfig.bg
           )}>
-            <i className={`ph-fill ph-${iconConfig.icon} text-xl ${iconConfig.color}`}></i>
+            <IconComponent size={22} weight="fill" className={iconConfig.color} />
           </div>
           <div className="flex items-center gap-2">
             <Tooltip content="Copy All Details" position="top">
