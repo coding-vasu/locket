@@ -1,5 +1,5 @@
 import { memo } from 'react';
-import { Trash, PencilSimple, ClipboardText, Globe, Code, Database, Notepad } from '@phosphor-icons/react';
+import { Trash, PencilSimple, ClipboardText, Globe, Code, Database, Notepad, PushPin } from '@phosphor-icons/react';
 import clsx from 'clsx';
 import type { Credential, CredentialFormData } from '../../types/credential.types';
 import { CREDENTIAL_ICONS } from '../../constants';
@@ -11,6 +11,7 @@ import { useCredentialStore } from '../../store/credentialStore';
 import { useUIStore } from '../../store/uiStore';
 import { formatCredentialAsText } from '../../utils/formatCredential';
 import { useClipboard } from '../../hooks/useClipboard';
+import { useQuickCopy } from '../../hooks/useQuickCopy';
 import { Tooltip } from '../ui/Tooltip';
 
 interface CredentialCardProps {
@@ -28,8 +29,11 @@ export const CredentialCard = memo(function CredentialCard({ credential }: Crede
   const deleteCredential = useCredentialStore((state) => state.deleteCredential);
   const openEditModal = useUIStore((state) => state.openEditModal);
   const addToast = useUIStore((state) => state.addToast);
+  const pinnedCredentialId = useUIStore((state) => state.pinnedCredentialId);
   const { copyToClipboard } = useClipboard();
+  const { openQuickCopy } = useQuickCopy();
   
+  const isPinned = pinnedCredentialId === credential.id;
   
   const iconConfig = CREDENTIAL_ICONS[credential.type];
   const IconComponent = ICON_MAP[iconConfig.icon as keyof typeof ICON_MAP] || Globe;
@@ -49,6 +53,10 @@ export const CredentialCard = memo(function CredentialCard({ credential }: Crede
     const formattedText = formatCredentialAsText(credential);
     copyToClipboard(formattedText, 'All details copied');
   };
+
+  const handleQuickCopy = () => {
+    openQuickCopy(credential.id);
+  };
   
   return (
     <div className="group relative glass-morphism rounded-2xl flex flex-col overflow-hidden h-full max-h-[440px] card-3d spotlight-border pulse-icon-hover">
@@ -62,6 +70,18 @@ export const CredentialCard = memo(function CredentialCard({ credential }: Crede
             <IconComponent size={22} weight="fill" className={iconConfig.color} />
           </div>
           <div className="flex items-center gap-2">
+            <Tooltip content="Quick Copy Mode" position="top">
+              <button
+                onClick={handleQuickCopy}
+                className={clsx(
+                  "transition-all duration-200 p-2 rounded-lg hover:bg-surfaceHighlight/70 hover:scale-110 active:scale-95 ripple-effect",
+                  isPinned ? "text-primary" : "text-muted hover:text-primary"
+                )}
+                aria-label="Open quick copy window"
+              >
+                <PushPin size={19} weight={isPinned ? "fill" : "bold"} />
+              </button>
+            </Tooltip>
             <Tooltip content="Copy All Details" position="top">
               <button
                 onClick={handleCopyAll}

@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { listen } from '@tauri-apps/api/event';
 import { MainLayout } from './components/layout/MainLayout';
 import { CredentialList } from './components/credential/CredentialList';
 import { CredentialModal } from './components/credential/CredentialModal';
@@ -20,9 +21,21 @@ function App() {
   const isSettingsOpen = useUIStore((state) => state.isSettingsOpen);
   const isShortcutsOpen = useUIStore((state) => state.isShortcutsOpen);
   const theme = useUIStore((state) => state.theme);
+  const setPinnedCredential = useUIStore((state) => state.setPinnedCredential);
   const setFilter = useCredentialStore((state) => state.setFilter);
   const searchQuery = useCredentialStore((state) => state.searchQuery);
   const setSearchQuery = useCredentialStore((state) => state.setSearchQuery);
+
+  // Listen for Quick Copy window close event
+  useEffect(() => {
+    const unlisten = listen('quick-copy-closed', () => {
+      setPinnedCredential(null);
+    });
+
+    return () => {
+      unlisten.then((fn) => fn());
+    };
+  }, [setPinnedCredential]);
 
   // Apply theme
   useEffect(() => {
