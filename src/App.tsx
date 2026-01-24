@@ -5,6 +5,8 @@ import { CredentialList } from './components/credential/CredentialList';
 import { CredentialModal } from './components/credential/CredentialModal';
 import { SettingsModal } from './components/features/SettingsModal';
 import { KeyboardShortcutsModal } from './components/features/KeyboardShortcutsModal';
+import { ImportModal } from './components/features/ImportModal';
+import { ExportModal } from './components/features/ExportModal';
 import { ToastContainer } from './components/ui/Toast';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useUIStore } from './store/uiStore';
@@ -137,6 +139,8 @@ function App() {
       <CredentialModal />
       <SettingsModal />
       <KeyboardShortcutsModal />
+      <ImportModal />
+      <ExportModal />
       <ToastContainer />
     </>
   );

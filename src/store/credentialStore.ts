@@ -18,6 +18,7 @@ interface CredentialStore {
   addCredential: (data: CredentialFormData) => void;
   updateCredential: (id: number, data: CredentialFormData) => void;
   deleteCredential: (id: number) => void;
+  importCredentials: (credentials: Credential[], idsToRemove?: number[]) => void;
   
   // Computed
   getFilteredCredentials: () => Credential[];
@@ -67,6 +68,23 @@ export const useCredentialStore = create<CredentialStore>()(
         set((state) => ({
           credentials: state.credentials.filter((cred) => cred.id !== id),
         }));
+      },
+      
+      importCredentials: (credentials, idsToRemove = []) => {
+        set((state) => {
+          // First remove duplicates if specified
+          let updatedCredentials = state.credentials;
+          if (idsToRemove.length > 0) {
+            updatedCredentials = updatedCredentials.filter(
+              (cred) => !idsToRemove.includes(cred.id)
+            );
+          }
+          
+          // Then add new credentials
+          return {
+            credentials: [...updatedCredentials, ...credentials],
+          };
+        });
       },
       
       getFilteredCredentials: () => {

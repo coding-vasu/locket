@@ -83,6 +83,7 @@ pub fn run() {
       close_quick_copy_window,
       get_quick_copy_credential
     ])
+    .plugin(tauri_plugin_dialog::init())
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }

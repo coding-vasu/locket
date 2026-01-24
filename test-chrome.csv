@@ -1,0 +1,4 @@
+name,url,username,password
+GitHub,https://github.com,testuser,testpass123
+Gmail,https://mail.google.com,user@gmail.com,securepass456
+Twitter,https://twitter.com,@myhandle,tweet123
