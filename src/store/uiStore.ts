@@ -33,6 +33,16 @@ interface UIStore {
   openShortcuts: () => void;
   closeShortcuts: () => void;
 
+  // Import modal state
+  isImportOpen: boolean;
+  openImport: () =>void;
+  closeImport: () => void;
+
+  // Export modal state
+  isExportOpen: boolean;
+  openExport: () => void;
+  closeExport: () => void;
+
   // Theme state
   theme: 'light' | 'dark' | 'system';
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
@@ -125,6 +135,28 @@ export const useUIStore = create<UIStore>()(
       
       closeShortcuts: () => {
         set({ isShortcutsOpen: false });
+      },
+
+      // Import modal
+      isImportOpen: false,
+      
+      openImport: () => {
+        set({ isImportOpen: true });
+      },
+      
+      closeImport: () => {
+        set({ isImportOpen: false });
+      },
+
+      // Export modal
+      isExportOpen: false,
+      
+      openExport: () => {
+        set({ isExportOpen: true });
+      },
+      
+      closeExport: () => {
+        set({ isExportOpen: false });
       },
 
       // Theme

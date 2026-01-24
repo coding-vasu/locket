@@ -1,12 +1,14 @@
 import { Dialog, Transition, Tab } from '@headlessui/react';
 import { Fragment } from 'react';
-import { X, ShieldCheck, Lock, Palette, Info } from '@phosphor-icons/react';
+import { X, ShieldCheck, Lock, Palette, Info, FileArrowUp, Download } from '@phosphor-icons/react';
 import { useUIStore } from '../../store/uiStore';
 import clsx from 'clsx';
 
 export function SettingsModal() {
   const isSettingsOpen = useUIStore((state) => state.isSettingsOpen);
   const closeSettings = useUIStore((state) => state.closeSettings);
+  const openImport = useUIStore((state) => state.openImport);
+  const openExport = useUIStore((state) => state.openExport);
   const dockSize = useUIStore((state) => state.dockSize);
   const setDockSize = useUIStore((state) => state.setDockSize);
   const theme = useUIStore((state) => state.theme);
@@ -99,6 +101,54 @@ export function SettingsModal() {
                       <div>
                         <h3 className="text-lg font-semibold text-main mb-4">General Settings</h3>
                         <div className="space-y-3">
+                          {/* Import Passwords */}
+                          <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-main mb-1 flex items-center gap-2">
+                                  <FileArrowUp size={16} weight="bold" className="text-primary" />
+                                  Import Passwords
+                                </h4>
+                                <p className="text-xs text-dim mb-3">
+                                  Import your passwords from Chrome, Firefox, Edge, or Safari using CSV export files.
+                                </p>
+                                <button
+                                  onClick={() => {
+                                    closeSettings();
+                                    openImport();
+                                  }}
+                                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-primary text-white hover:bg-primary/90 transition-all"
+                                >
+                                  Import from CSV
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Export Passwords */}
+                          <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-main mb-1 flex items-center gap-2">
+                                  <Download size={16} weight="bold" className="text-green-600 dark:text-green-400" />
+                                  Export Passwords
+                                </h4>
+                                <p className="text-xs text-dim mb-3">
+                                  Export your login credentials to browser-compatible CSV format for backup or migration.
+                                </p>
+                                <button
+                                  onClick={() => {
+                                    closeSettings();
+                                    openExport();
+                                  }}
+                                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-green-600 text-white hover:bg-green-700 transition-all"
+                                >
+                                  Export to CSV
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          
                           <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
                             <p className="text-sm text-dim">
                               Configure general application preferences and behavior.
