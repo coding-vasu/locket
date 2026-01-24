@@ -46,6 +46,10 @@ interface UIStore {
   // Theme state
   theme: 'light' | 'dark' | 'system';
   setTheme: (theme: 'light' | 'dark' | 'system') => void;
+
+  // Quick Copy state
+  pinnedCredentialId: number | null;
+  setPinnedCredential: (id: number | null) => void;
 }
 
 export const useUIStore = create<UIStore>()(
@@ -162,6 +166,10 @@ export const useUIStore = create<UIStore>()(
       // Theme
       theme: 'system',
       setTheme: (theme) => set({ theme }),
+
+      // Quick Copy
+      pinnedCredentialId: null,
+      setPinnedCredential: (id) => set({ pinnedCredentialId: id }),
     }),
     {
       name: 'ui-storage',
