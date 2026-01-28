@@ -9,9 +9,11 @@ async fn open_quick_copy_window(
     app: tauri::AppHandle,
     credential_json: String,
 ) -> Result<(), String> {
-    // Close existing window if it exists
+    // Close existing window if it exists and wait for it to fully close
     if let Some(window) = app.get_webview_window("quick-copy") {
-        let _ = window.close();
+        window.close().map_err(|e| e.to_string())?;
+        // Give it a moment to fully close
+        tokio::time::sleep(tokio::time::Duration::from_millis(100)).await;
     }
     
     // Store credential data
@@ -20,7 +22,7 @@ async fn open_quick_copy_window(
     }
     
     // Create new floating window
-    let _window = tauri::WebviewWindowBuilder::new(
+    let window = tauri::WebviewWindowBuilder::new(
         &app,
         "quick-copy",
         tauri::WebviewUrl::App("quick-copy.html".into())
@@ -33,6 +35,20 @@ async fn open_quick_copy_window(
     .skip_taskbar(true)
     .build()
     .map_err(|e| e.to_string())?;
+    
+    // Listen for window close event to clear pin state
+    let app_handle = app.clone();
+    window.on_window_event(move |event| {
+        if let tauri::WindowEvent::CloseRequested { .. } = event {
+            // Clear stored credential
+            if let Ok(mut pending) = PENDING_CREDENTIAL.lock() {
+                *pending = None;
+            }
+            
+            // Broadcast event to all windows to clear pin state
+            let _ = app_handle.emit("quick-copy-closed", ());
+        }
+    });
     
     Ok(())
 }

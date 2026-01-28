@@ -45,7 +45,8 @@ export const useCredentialStore = create<CredentialStore>()(
         } as Credential;
         
         set((state) => ({
-          credentials: [...state.credentials, newCredential],
+          // Prepend to keep newest first - eliminates need for .reverse()
+          credentials: [newCredential, ...state.credentials],
         }));
       },
       
@@ -80,7 +81,8 @@ export const useCredentialStore = create<CredentialStore>()(
             );
           }
           
-          // Then add new credentials
+          // Add new credentials at the end (they're typically older imports)
+          // If importing newer items, they should still appear in chronological order
           return {
             credentials: [...updatedCredentials, ...credentials],
           };
@@ -96,7 +98,7 @@ export const useCredentialStore = create<CredentialStore>()(
           result = result.filter((cred) => cred.type === currentFilter);
         }
         
-        // Filter by search
+        // Filter by search - pre-lowercase query once for performance
         if (searchQuery) {
           const q = searchQuery.toLowerCase();
           result = result.filter((cred) => {
@@ -114,8 +116,8 @@ export const useCredentialStore = create<CredentialStore>()(
           });
         }
         
-        // Return newest first (create shallow copy to avoid mutation)
-        return [...result].reverse();
+        // Credentials already stored in newest-first order, no need to reverse
+        return result;
       },
       
       getCount: (type) => {

@@ -1,7 +1,9 @@
 import { Dialog, Transition, Tab } from '@headlessui/react';
 import { Fragment } from 'react';
-import { X, ShieldCheck, Lock, Palette, Info, FileArrowUp, Download } from '@phosphor-icons/react';
+import { X, ShieldCheck, Lock, Palette, Info, FileArrowUp, Download, Lightning } from '@phosphor-icons/react';
 import { useUIStore } from '../../store/uiStore';
+import { useCredentialStore } from '../../store/credentialStore';
+import { generateLargeTestDataset } from '../../utils/performanceTest';
 import clsx from 'clsx';
 
 export function SettingsModal() {
@@ -13,6 +15,8 @@ export function SettingsModal() {
   const setDockSize = useUIStore((state) => state.setDockSize);
   const theme = useUIStore((state) => state.theme);
   const setTheme = useUIStore((state) => state.setTheme);
+  const addToast = useUIStore((state) => state.addToast);
+  const importCredentials = useCredentialStore((state) => state.importCredentials);
   
   const tabs = [
     { name: 'General', icon: Info },
@@ -20,6 +24,13 @@ export function SettingsModal() {
     { name: 'Appearance', icon: Palette },
     { name: 'About', icon: ShieldCheck },
   ];
+
+  const handleLoadTestData = () => {
+    const data = generateLargeTestDataset(5000);
+    importCredentials(data);
+    addToast('Added 5,000 test credentials');
+    closeSettings();
+  };
   
   return (
     <Transition appear show={isSettingsOpen} as={Fragment}>
@@ -144,6 +155,27 @@ export function SettingsModal() {
                                   className="px-3 py-1.5 rounded-md text-xs font-medium bg-green-600 text-white hover:bg-green-700 transition-all"
                                 >
                                   Export to CSV
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+
+                          {/* Performance Test */}
+                          <div className="p-4 rounded-lg bg-surfaceHighlight/30 border border-border/30">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-main mb-1 flex items-center gap-2">
+                                  <Lightning size={16} weight="bold" className="text-amber-500" />
+                                  Performance Test
+                                </h4>
+                                <p className="text-xs text-dim mb-3">
+                                  Generate and inject 5,000 random credentials to test the application's rendering performance and infinite scroll.
+                                </p>
+                                <button
+                                  onClick={handleLoadTestData}
+                                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 transition-all"
+                                >
+                                  Load 5,000 Test Items
                                 </button>
                               </div>
                             </div>

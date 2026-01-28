@@ -1,6 +1,9 @@
+import { useState, useEffect } from 'react';
 import { ShieldCheck, MagnifyingGlass, X, Gear, Plus } from '@phosphor-icons/react';
 import { useCredentialStore } from '../../store/credentialStore';
 import { useUIStore } from '../../store/uiStore';
+
+const SEARCH_DEBOUNCE_DELAY = 300; // ms
 
 export function Header() {
   const searchQuery = useCredentialStore((state) => state.searchQuery);
@@ -8,8 +11,26 @@ export function Header() {
   const openAddModal = useUIStore((state) => state.openAddModal);
   const openSettings = useUIStore((state) => state.openSettings);
   
+  // Local state for immediate input responsiveness
+  const [localSearchQuery, setLocalSearchQuery] = useState(searchQuery);
+  
+  // Debounce the store update to reduce filtering operations
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setSearchQuery(localSearchQuery);
+    }, SEARCH_DEBOUNCE_DELAY);
+    
+    return () => clearTimeout(timeoutId);
+  }, [localSearchQuery, setSearchQuery]);
+  
+  // Sync local state when store changes externally (e.g., Escape key clears search)
+  useEffect(() => {
+    setLocalSearchQuery(searchQuery);
+  }, [searchQuery]);
+  
   const handleClearSearch = () => {
-    setSearchQuery('');
+    setLocalSearchQuery('');
+    setSearchQuery(''); // Clear immediately for responsive UX
   };
   
   return (
@@ -33,12 +54,12 @@ export function Header() {
           <input
             type="text"
             placeholder="Search credentials..."
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+            value={localSearchQuery}
+            onChange={(e) => setLocalSearchQuery(e.target.value)}
             className="w-full h-10 pl-11 pr-20 bg-surface/50 border border-border rounded-lg text-sm text-main placeholder-dim focus:outline-none focus:border-primary/50 focus:bg-surface/70 transition-all"
             aria-label="Search credentials"
           />
-          {searchQuery && (
+          {localSearchQuery && (
             <button
               onClick={handleClearSearch}
               className="absolute right-12 top-1/2 -translate-y-1/2 text-muted hover:text-main transition-colors p-1 rounded hover:bg-surfaceHighlight"
