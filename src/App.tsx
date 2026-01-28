@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { listen } from '@tauri-apps/api/event';
 import { MainLayout } from './components/layout/MainLayout';
 import { CredentialList } from './components/credential/CredentialList';
 import { CredentialModal } from './components/credential/CredentialModal';
@@ -11,6 +10,10 @@ import { ToastContainer } from './components/ui/Toast';
 import { useKeyboardShortcuts } from './hooks/useKeyboardShortcuts';
 import { useUIStore } from './store/uiStore';
 import { useCredentialStore } from './store/credentialStore';
+
+// Detect if running in Tauri environment (v2 uses __TAURI_INTERNALS__)
+const isTauri = typeof window !== 'undefined' && 
+  (('__TAURI_INTERNALS__' in window) || ('__TAURI__' in window));
 
 function App() {
   const openAddModal = useUIStore((state) => state.openAddModal);
@@ -28,14 +31,31 @@ function App() {
   const searchQuery = useCredentialStore((state) => state.searchQuery);
   const setSearchQuery = useCredentialStore((state) => state.setSearchQuery);
 
-  // Listen for Quick Copy window close event
+  // Listen for Quick Copy window close event (Tauri only)
   useEffect(() => {
-    const unlisten = listen('quick-copy-closed', () => {
-      setPinnedCredential(null);
-    });
+    if (!isTauri) return;
+
+    let unlistenFn: (() => void) | undefined;
+    
+    // Dynamically import Tauri API and set up listener
+    const setupListener = async () => {
+      try {
+        const { listen } = await import('@tauri-apps/api/event');
+        const unlisten = await listen('quick-copy-closed', () => {
+          setPinnedCredential(null);
+        });
+        unlistenFn = unlisten;
+      } catch (error) {
+        console.error('[Quick Copy] Failed to set up listener:', error);
+      }
+    };
+
+    setupListener();
 
     return () => {
-      unlisten.then((fn) => fn());
+      if (unlistenFn) {
+        unlistenFn();
+      }
     };
   }, [setPinnedCredential]);
 
