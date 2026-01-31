@@ -1,9 +1,11 @@
 import { Dialog, Transition, Tab } from '@headlessui/react';
-import { Fragment } from 'react';
-import { X, ShieldCheck, Lock, Palette, Info, FileArrowUp, Download, Lightning } from '@phosphor-icons/react';
+import { Fragment, useState } from 'react';
+import { X, ShieldCheck, Lock, Palette, Info, FileArrowUp, Download, Lightning, Trash } from '@phosphor-icons/react';
 import { useUIStore } from '../../store/uiStore';
 import { useCredentialStore } from '../../store/credentialStore';
 import { generateLargeTestDataset } from '../../utils/performanceTest';
+import { ClearDataModal } from './ClearDataModal';
+import { invoke } from '@tauri-apps/api/core';
 import clsx from 'clsx';
 
 export function SettingsModal() {
@@ -17,6 +19,9 @@ export function SettingsModal() {
   const setTheme = useUIStore((state) => state.setTheme);
   const addToast = useUIStore((state) => state.addToast);
   const importCredentials = useCredentialStore((state) => state.importCredentials);
+  const clearAllData = useCredentialStore((state) => state.clearAllData);
+  
+  const [isClearDataModalOpen, setIsClearDataModalOpen] = useState(false);
   
   const tabs = [
     { name: 'General', icon: Info },
@@ -30,6 +35,24 @@ export function SettingsModal() {
     importCredentials(data);
     addToast('Added 5,000 test credentials');
     closeSettings();
+  };
+  
+  const handleClearData = async () => {
+    try {
+      // Clear the store data
+      clearAllData();
+      
+      // Delete the encrypted file via Tauri command
+      await invoke('clear_app_data');
+      
+      // Close modals and show success message
+      setIsClearDataModalOpen(false);
+      closeSettings();
+      addToast('All app data cleared successfully');
+    } catch (error) {
+      console.error('Failed to clear app data:', error);
+      addToast('Failed to clear app data', 'error');
+    }
   };
   
   return (
@@ -176,6 +199,27 @@ export function SettingsModal() {
                                   className="px-3 py-1.5 rounded-md text-xs font-medium bg-amber-500/10 text-amber-600 dark:text-amber-400 hover:bg-amber-500/20 border border-amber-500/20 transition-all"
                                 >
                                   Load 5,000 Test Items
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Clear All Data */}
+                          <div className="p-4 rounded-lg bg-red-500/10 border border-red-500/20">
+                            <div className="flex items-start justify-between">
+                              <div className="flex-1">
+                                <h4 className="text-sm font-medium text-main mb-1 flex items-center gap-2">
+                                  <Trash size={16} weight="bold" className="text-red-600 dark:text-red-400" />
+                                  Clear All Data
+                                </h4>
+                                <p className="text-xs text-dim mb-3">
+                                  Permanently delete all saved credentials and reset the app to its initial state. This action cannot be undone.
+                                </p>
+                                <button
+                                  onClick={() => setIsClearDataModalOpen(true)}
+                                  className="px-3 py-1.5 rounded-md text-xs font-medium bg-red-600 text-white hover:bg-red-700 transition-all"
+                                >
+                                  Clear All Data
                                 </button>
                               </div>
                             </div>
@@ -330,6 +374,13 @@ export function SettingsModal() {
           </div>
         </div>
       </Dialog>
+      
+      {/* Clear Data Confirmation Modal */}
+      <ClearDataModal
+        isOpen={isClearDataModalOpen}
+        onClose={() => setIsClearDataModalOpen(false)}
+        onConfirm={handleClearData}
+      />
     </Transition>
   );
 }

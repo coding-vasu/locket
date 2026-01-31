@@ -19,6 +19,7 @@ interface CredentialStore {
   updateCredential: (id: number, data: CredentialFormData) => void;
   deleteCredential: (id: number) => void;
   importCredentials: (credentials: Credential[], idsToRemove?: number[]) => void;
+  clearAllData: () => void;
   
   // Computed
   getFilteredCredentials: () => Credential[];
@@ -86,6 +87,14 @@ export const useCredentialStore = create<CredentialStore>()(
           return {
             credentials: [...updatedCredentials, ...credentials],
           };
+        });
+      },
+      
+      clearAllData: () => {
+        set({
+          credentials: [],
+          currentFilter: 'all',
+          searchQuery: '',
         });
       },
       
