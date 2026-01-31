@@ -272,7 +272,7 @@ function convertToCredential(row: CSVRow, format: BrowserFormat, rowNumber: numb
       username: username || '',
       password: password || '',
     };
-  } catch (error) {
+  } catch {
     return null;
   }
 }

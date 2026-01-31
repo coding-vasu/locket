@@ -48,10 +48,10 @@ export function CredentialList() {
     return result;
   }, [credentials, currentFilter, searchQuery]);
 
-  // Reset visible count when filter or search changes
+  // Reset visible count when filtered credentials change
   useEffect(() => {
     setVisibleCount(ITEMS_PER_PAGE);
-  }, [currentFilter, searchQuery]);
+  }, [filteredCredentials]);
 
   // Infinite scroll observer
   const handleObserver = useCallback((entries: IntersectionObserverEntry[]) => {

@@ -4,7 +4,7 @@ import './index.css';
 import { QuickCopyWindow } from './components/features/QuickCopyWindow';
 import { useUIStore } from './store/uiStore';
 
-function QuickCopyApp() {
+export function QuickCopyApp() {
   const theme = useUIStore((state) => state.theme);
 
   useEffect(() => {

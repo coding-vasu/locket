@@ -23,7 +23,7 @@ export function CredentialModal() {
   
   useEffect(() => {
     if (modalMode === 'edit' && editingCredential) {
-      // eslint-disable-next-line react-hooks/set-state-in-effect
+       
       setFormData(editingCredential);
     } else if (modalMode === 'add') {
       setFormData(getInitialFormData());

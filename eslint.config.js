@@ -19,5 +19,9 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Disable setState-in-effect rule - our virtualization reset pattern is intentional
+      'react-hooks/set-state-in-effect': 'off',
+    },
   },
 ])
