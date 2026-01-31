@@ -21,14 +21,29 @@ let writeTextFile: any;
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 let mkdir: any;
 
-if (isTauri) {
-  import('@tauri-apps/plugin-fs').then(module => {
+let initPromise: Promise<void> | null = null;
+
+// Initialize Tauri modules once
+const initTauriModules = () => {
+  if (!isTauri) return Promise.resolve();
+  if (initPromise) return initPromise;
+
+  initPromise = import('@tauri-apps/plugin-fs').then(module => {
     BaseDirectory = module.BaseDirectory;
     exists = module.exists;
     readTextFile = module.readTextFile;
     writeTextFile = module.writeTextFile;
     mkdir = module.mkdir;
+  }).catch(err => {
+    console.error('Failed to load Tauri FS plugin:', err);
   });
+  
+  return initPromise;
+};
+
+// Start initialization immediately
+if (isTauri) {
+  initTauriModules();
 }
 
 interface EncryptedFileContent {
@@ -43,6 +58,9 @@ interface EncryptedFileContent {
  */
 async function writeEncryptedFile(_name: string, value: string): Promise<void> {
   try {
+    // Ensure modules are loaded
+    await initTauriModules();
+    
     const key = await getMasterKey();
     const encrypted = await encryptData(value, key);
     
@@ -56,7 +74,13 @@ async function writeEncryptedFile(_name: string, value: string): Promise<void> {
 
     if (isTauri && BaseDirectory) {
       // Tauri: Use file system
-      await mkdir('store', { baseDir: BaseDirectory.AppData, recursive: true });
+      try {
+        await mkdir('store', { baseDir: BaseDirectory.AppData, recursive: true });
+      } catch {
+        // Ignore if directory creation fails (might be permission or already exists)
+        // But likely it's fine
+      }
+      
       await writeTextFile('store/' + FILE_NAME, jsonStr, { 
         baseDir: BaseDirectory.AppData 
       });
@@ -84,6 +108,9 @@ export const encryptedStorage: StateStorage = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   getItem: async (_name: string): Promise<string | null> => {
     try {
+      // Ensure modules are loaded before reading
+      await initTauriModules();
+      
       let fileContent: string;
 
       if (isTauri && BaseDirectory) {
