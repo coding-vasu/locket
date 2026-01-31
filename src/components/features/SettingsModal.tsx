@@ -5,6 +5,7 @@ import { useUIStore } from '../../store/uiStore';
 import { useCredentialStore } from '../../store/credentialStore';
 import { generateLargeTestDataset } from '../../utils/performanceTest';
 import { ClearDataModal } from './ClearDataModal';
+import { invoke } from '@tauri-apps/api/core';
 import clsx from 'clsx';
 
 export function SettingsModal() {
@@ -38,15 +39,15 @@ export function SettingsModal() {
   
   const handleClearData = async () => {
     try {
-      // Clear the store data - this will trigger Zustand's persist middleware
+      // Clear the store data
       clearAllData();
       
-      // Wait for Zustand's debounced persist to complete (debounce is 500ms)
-      // This ensures the empty state is written to the encrypted file
-      await new Promise(resolve => setTimeout(resolve, 700));
+      // Wait a moment for state to update
+      await new Promise(resolve => setTimeout(resolve, 100));
       
-      // Note: We don't delete the file - we keep it with the empty state
-      // This way, when the app relaunches, it loads the empty state correctly
+      // Delete the encrypted file via Tauri command
+      // This ensures a clean slate on app restart
+      await invoke('clear_app_data');
       
       // Close modals and show success message
       setIsClearDataModalOpen(false);
