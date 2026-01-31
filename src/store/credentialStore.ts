@@ -2,7 +2,6 @@ import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import type { Credential, CredentialFormData, FilterType } from '../types/credential.types';
 import { createDateString } from '../utils/dateFormatter';
-import { seedData } from '../utils/seedData';
 import { createJSONStorage } from 'zustand/middleware';
 import { encryptedStorage } from '../utils/storage';
 
@@ -29,7 +28,7 @@ interface CredentialStore {
 export const useCredentialStore = create<CredentialStore>()(
   persist(
     (set, get) => ({
-      credentials: seedData, // Initialize with seed data
+      credentials: [], // Start with empty credentials - users can add their own
       currentFilter: 'all',
       searchQuery: '',
       

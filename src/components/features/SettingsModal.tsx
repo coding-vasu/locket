@@ -42,7 +42,11 @@ export function SettingsModal() {
       // Clear the store data
       clearAllData();
       
+      // Wait a moment for state to update
+      await new Promise(resolve => setTimeout(resolve, 100));
+      
       // Delete the encrypted file via Tauri command
+      // This ensures a clean slate on app restart
       await invoke('clear_app_data');
       
       // Close modals and show success message
