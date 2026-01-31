@@ -1,5 +1,6 @@
 import { User, Key, Copy, Globe, Eye, EyeSlash, Check } from '@phosphor-icons/react';
 import { useState } from 'react';
+import { open } from '@tauri-apps/plugin-shell';
 import type { LoginCredential } from '../../../types/credential.types';
 import { useClipboard } from '../../../hooks/useClipboard';
 import { calculatePasswordStrength, PASSWORD_STRENGTH_COLORS } from '../../../constants/colors';
@@ -21,20 +22,28 @@ export function LoginCard({ credential }: LoginCardProps) {
     setCopiedField(field);
     setTimeout(() => setCopiedField(null), 2000);
   };
+
+  const handleOpenUrl = async () => {
+    if (credential.url) {
+      try {
+        await open(credential.url);
+      } catch (error) {
+        console.error('Failed to open URL:', error);
+      }
+    }
+  };
   
   return (
     <div className="space-y-3">
       {/* Website URL (if available) */}
       {credential.url && (
-        <a
-          href={credential.url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center gap-2 text-xs text-muted hover:text-primary transition-all duration-200 group"
+        <button
+          onClick={handleOpenUrl}
+          className="flex items-center gap-2 text-xs text-muted hover:text-primary transition-all duration-200 group cursor-pointer"
         >
           <Globe size={14} weight="bold" className="group-hover:scale-110 transition-transform" />
           <span className="truncate font-medium">{credential.url.replace(/^https?:\/\//, '')}</span>
-        </a>
+        </button>
       )}
       
       {/* Username Field */}
