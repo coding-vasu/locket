@@ -80,6 +80,29 @@ async fn close_quick_copy_window(app: tauri::AppHandle) -> Result<(), String> {
     Ok(())
 }
 
+#[tauri::command]
+async fn clear_app_data(app: tauri::AppHandle) -> Result<(), String> {
+    use std::path::PathBuf;
+    
+    // Get app data directory
+    let app_data_dir = app.path()
+        .app_data_dir()
+        .map_err(|e| format!("Failed to get app data directory: {}", e))?;
+    
+    // Construct path to encrypted data file
+    let mut data_file_path = PathBuf::from(app_data_dir);
+    data_file_path.push("store");
+    data_file_path.push("locket_data.enc");
+    
+    // Delete the file if it exists
+    if data_file_path.exists() {
+        std::fs::remove_file(&data_file_path)
+            .map_err(|e| format!("Failed to delete data file: {}", e))?;
+    }
+    
+    Ok(())
+}
+
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
   tauri::Builder::default()
@@ -97,7 +120,8 @@ pub fn run() {
     .invoke_handler(tauri::generate_handler![
       open_quick_copy_window,
       close_quick_copy_window,
-      get_quick_copy_credential
+      get_quick_copy_credential,
+      clear_app_data
     ])
     .plugin(tauri_plugin_dialog::init())
     .run(tauri::generate_context!())
